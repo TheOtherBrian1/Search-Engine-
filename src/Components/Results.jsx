@@ -10,13 +10,9 @@ export default function Results(){
     const location = useLocation();
     console.log(queryResults);
     useEffect(()=>{
-        if (searchTerm)
-            if(location.pathname === '/videos')
-                queryGoogle(`/search/q=${searchTerm} videos`)
-            else
-                queryGoogle(`${location.pathname}/q=${searchTerm}&num=20`)
+        queryGoogle(location.pathname, searchTerm);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searchTerm, location.pathname])
+    }, [location.pathname])
 
     if (isLoading) return <Loading />;
     console.log(location.pathname, 'pandas');
@@ -24,7 +20,7 @@ export default function Results(){
     switch (location.pathname) {
       case '/search':
         return (
-          <div className="sm:px-56 flex flex-wrap justify-between space-y-6">
+          <div className="sm:px-56 flex flex-wrap justify-between space-y-6 p-3">
             {queryResults?.results?.map(({ link, title }, index) => (
               <div key={index} className="md:w-2/5 w-full">
                 <a href={link} target="_blank" rel="noreferrer">
@@ -37,7 +33,7 @@ export default function Results(){
         );
       case '/images':
         return (
-          <div className="flex flex-wrap justify-center items-center">
+          <div className="flex flex-wrap justify-center items-center p-3">
             {queryResults?.image_results?.map(({ image, link: { href, title } }, index) => (
               <a href={href} target="_blank" key={index} rel="noreferrer" className="sm:p-3 p-5">
                 <img src={image?.src} alt={title} loading="lazy" />
@@ -49,7 +45,7 @@ export default function Results(){
       case '/news':
         console.log('is news fetched')
         return (
-          <div className="sm:px-56 flex flex-wrap justify-between items-center space-y-6">
+          <div className="sm:px-56 flex flex-wrap justify-between items-center space-y-6 p-3">
             {console.log(queryResults, 'blubber')}
             {queryResults?.entries?.map(({ id, links, source, title }) => (
               <div key={id} className="md:w-2/5 w-full ">
@@ -66,7 +62,7 @@ export default function Results(){
         );
       case '/videos':
         return (
-          <div className="flex flex-wrap ">
+          <div className="flex flex-wrap p-3 ">
             {queryResults?.results?.map((video, index) => (
               <div key={index} className="p-2">
                 {console.log(video.additional_links?.[0].href)}

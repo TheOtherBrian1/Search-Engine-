@@ -24,11 +24,17 @@ export default function StateContextProvider({children}){
     const [isLoading, setIsLoading] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
 
-    async function queryGoogle (url){
+    async function queryGoogle (path, url){
+        let search;
+        if(path === '/videos')
+            search = `/search/q=${searchTerm} videos`;
+        else
+           search = `${path}/q=${url}&num=20`
+
         setIsLoading(true);
-        console.log(url);
+
         try{
-            const res = await fetch(`${baseUrl}${url}`,{
+            const res = await fetch(`${baseUrl}${search}`,{
                 "method": "GET",
                 "headers": {
                     "x-user-agent": "desktop",
@@ -42,7 +48,7 @@ export default function StateContextProvider({children}){
             console.log(`${baseUrl}${url}`);
             console.log(data);
             setQueryResults(data);
-            
+
         }
         catch(err){
             console.log(err, 'an error was called')
