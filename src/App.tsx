@@ -14,12 +14,13 @@ function App() {
           <StateContextProvider>
               <Router>
                 <Navbar />
+                <Search />
                 <Routes>
-                  <Route path = '/'         element={<Search />} /> 
-                  <Route path = '/search'   element={<Search />} />
                   <Route path = '/images'   element={<Results />} />
                   <Route path = '/news'     element={<Results />} />
                   <Route path = '/videos'   element={<Results />} />
+                  <Route path = '/search'   element={<Results />} />
+                  <Route path = '*'         element={<div></div>} />
                 </Routes>
               </Router>
               <Footer />

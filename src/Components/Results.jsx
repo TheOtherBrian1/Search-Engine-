@@ -1,31 +1,31 @@
 import React, { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import ReactPlayer from 'react-player';
+import ReactPlayer from 'react-player/lazy';
 import Loading from './Loading';
 
 import {useStateContext} from '../Context';
 
 export default function Results(){
-    const {results, isLoading, queryGoogle, searchTerm} = useStateContext();
+    const {queryResults, isLoading, queryGoogle, searchTerm} = useStateContext();
     const location = useLocation();
-
+    console.log(queryResults);
     useEffect(()=>{
         if (searchTerm)
             if(location.pathname === '/videos')
-                queryGoogle(`search/q=${searchTerm} videos`)
+                queryGoogle(`/search/q=${searchTerm} videos`)
             else
-                queryGoogle(`${location.pathname}/search/q=${searchTerm}&num=20 videos`)
+                queryGoogle(`${location.pathname}/q=${searchTerm}&num=20`)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchTerm, location.pathname])
 
     if (isLoading) return <Loading />;
-    console.log(location.pathname);
+    console.log(location.pathname, 'pandas');
 
     switch (location.pathname) {
       case '/search':
         return (
           <div className="sm:px-56 flex flex-wrap justify-between space-y-6">
-            {results?.results?.map(({ link, title }, index) => (
+            {queryResults?.results?.map(({ link, title }, index) => (
               <div key={index} className="md:w-2/5 w-full">
                 <a href={link} target="_blank" rel="noreferrer">
                   <p className="text-sm">{link.length > 30 ? link.substring(0, 30) : link}</p>
@@ -38,7 +38,7 @@ export default function Results(){
       case '/images':
         return (
           <div className="flex flex-wrap justify-center items-center">
-            {results?.image_results?.map(({ image, link: { href, title } }, index) => (
+            {queryResults?.image_results?.map(({ image, link: { href, title } }, index) => (
               <a href={href} target="_blank" key={index} rel="noreferrer" className="sm:p-3 p-5">
                 <img src={image?.src} alt={title} loading="lazy" />
                 <p className="sm:w-36 w-36 break-words text-sm mt-2">{title}</p>
@@ -47,10 +47,13 @@ export default function Results(){
           </div>
         );
       case '/news':
+        console.log('is news fetched')
         return (
           <div className="sm:px-56 flex flex-wrap justify-between items-center space-y-6">
-            {results?.entries?.map(({ id, links, source, title }) => (
+            {console.log(queryResults, 'blubber')}
+            {queryResults?.entries?.map(({ id, links, source, title }) => (
               <div key={id} className="md:w-2/5 w-full ">
+                {console.log(id, links,source, title, 'is this working' )}
                 <a href={links?.[0].href} target="_blank" rel="noreferrer " className="hover:underline ">
                   <p className="text-lg dark:text-blue-300 text-blue-700">{title}</p>
                 </a>
@@ -64,8 +67,9 @@ export default function Results(){
       case '/videos':
         return (
           <div className="flex flex-wrap ">
-            {results?.results?.map((video, index) => (
+            {queryResults?.results?.map((video, index) => (
               <div key={index} className="p-2">
+                {console.log(video.additional_links?.[0].href)}
                 <ReactPlayer url={video.additional_links?.[0].href} controls width="355px" height="200px" />
               </div>
             ))}

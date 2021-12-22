@@ -17,7 +17,7 @@ interface Context {
 
 
 const StateContext = createContext();
-const baseUrl = "https://google-search3.p.rapidapi.com/api/v1/search";
+const baseUrl = "https://google-search3.p.rapidapi.com/api/v1";
 
 export default function StateContextProvider({children}){
     const [queryResults, setQueryResults] = useState([]);
@@ -26,25 +26,30 @@ export default function StateContextProvider({children}){
 
     async function queryGoogle (url){
         setIsLoading(true);
+        console.log(url);
         try{
-            const res = await fetch(`${baseUrl}/${url}`,{
+            const res = await fetch(`${baseUrl}${url}`,{
                 "method": "GET",
                 "headers": {
                     "x-user-agent": "desktop",
                     "x-proxy-location": "US",
                     "x-rapidapi-host": "google-search3.p.rapidapi.com",
-                    "x-rapidapi-key": "685b050cb7msh5e89fb0e50cc7b1p19b811jsn5db468c0f762"
+                    'x-rapidapi-key': '82456b7515mshddd2a6360a407b2p1d3726jsn55fa21a1fc37'
                 }
             });
 
             const data = await res.json();
+            console.log(`${baseUrl}${url}`);
+            console.log(data);
             setQueryResults(data);
+            
         }
         catch(err){
+            console.log(err, 'an error was called')
             setQueryResults("error")
         }
+        setIsLoading(false);
     }
-
     return(
         <StateContext.Provider 
             value={
@@ -69,11 +74,11 @@ export const useStateContext = () => useContext(StateContext);
 const darkModeContext = createContext();
 
 export function DarkModeContextProvider({children}){
-    const [darkMode, useDarkMode] = useState(true);
+    const [darkMode, setDarkMode] = useState(true);
 
     return (
         <darkModeContext.Provider
-            value = {{darkMode, useDarkMode}}
+            value = {{darkMode, setDarkMode}}
         >
             {children}
         </darkModeContext.Provider>
