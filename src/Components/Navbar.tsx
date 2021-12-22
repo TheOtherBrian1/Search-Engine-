@@ -1,27 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import {useDarkModeContext} from '../Context';
 
-interface Props {
-    darkTheme: boolean;
-    setDarkTheme: (darkTheme:boolean)=> void;
-}
-
-export default function Navbar({darkTheme, setDarkTheme}: Props){
+export default function Navbar(){
+    const {darkMode, setDarkMode} = useDarkModeContext();
 
     return(
-        <div className = "p-5 pb-0 flex flex-wrap sm:justify-between justify-center items-center border-b dark:border-gray-700 border-gray-200">
+        <div className = "mb-10 p-2 px-10 flex flex-wrap sm:justify-between justify-center items-center border-b dark:border-gray-700 border-gray-200">
             <div className = "flex justify-between items-center space-x-5 w-screen">
                 <Link to = '/'>
-                    <p className= 'text-2xl bg-blue-500 font-bold text-white py-1 px-2 rounded dark:bg-gray-500 dark:text-gray-900'>
-                        Dona 🔎
+                    <p className= 'text-2xl bg-purple-400 font-bold text-white py-1 px-2 rounded dark:bg-gray-500 dark:text-gray-900'>
+                        Dona
                     </p>
                 </Link>
                 <button 
                     className = 'text-xl dark:bg-gray-50 dark:text-gray-900 bg-white border rounded-full px-2 py-1 hover:shadow-lg'
-                    onClick = {()=>setDarkTheme(!darkTheme)}
+                    onClick = {()=>setDarkMode(!darkMode)}
                 >
                     {
-                        darkTheme? 'Light 💡':'Dark 🌙'
+                        darkMode? 'Light 💡':'Dark 🌙'
                     }
                 </button>
             </div>
