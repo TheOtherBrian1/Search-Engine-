@@ -13,6 +13,9 @@
         React Context
     </li>
     <li>
+        React Routing
+    </li>
+    <li>
         JavaScript
     </li>
     <li>
