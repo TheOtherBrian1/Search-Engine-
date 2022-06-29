@@ -1,6 +1,6 @@
 # Dona Search Engine
 
-<a href = "https://angry-easley-d39929.netlify.app/search">A search engine that's powered by Google's API</a>
+<a href = "https://angry-easley-d39929.netlify.app/videos">A search engine that's powered by Google's API</a>
 <img src = "Readme-assets/website.gif" />
 
 <hr />
